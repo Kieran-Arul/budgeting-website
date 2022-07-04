@@ -13,3 +13,20 @@ $("#yearId").on("keyup", () => {
     }
 
 });
+
+
+$("#budgetId").on("keyup", () => {
+
+    if ($.isNumeric($("#budgetId").val())) {
+
+        $("#submitBtnId").prop("disabled", false);
+        $("#budgetValidId").html("");
+
+    } else {
+
+        $("#budgetValidId").html("Invalid Number").css("color", "red");
+        $("#submitBtnId").prop("disabled", true);
+
+    }
+
+});
