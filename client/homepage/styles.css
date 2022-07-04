@@ -1,0 +1,130 @@
+/********************************** Tag Selectors **********************************/
+
+body {
+	font-family: "Montserrat, sans-serif", serif;
+	text-align: center;
+}
+
+p {
+	color: #8F8F8F;
+}
+
+/********************************** Sections **********************************/
+
+.coloured-section {
+	background-color: #CF9FFF;
+	color: #FFF;
+}
+
+.white-section {
+	background-color: #FFF;
+}
+
+/********************************** Container Selectors **********************************/
+
+.container-fluid {
+	
+	padding: 7% 15%;
+}
+
+/********************************** Title Section **********************************/
+
+#title .container-fluid {
+
+	padding: 2% 15% 14%;
+
+}
+
+.big-heading {
+
+	font-size: 3.5rem;
+	font-weight: 900;
+	line-height: 1.5;
+}
+
+.start-btn {
+
+	width: 35%;
+	margin-top: 12%;
+
+}
+
+/********************************** Navigation Bar **********************************/
+
+.navbar {
+	padding-bottom: 4.5rem;
+}
+
+.navbar-brand {
+	font-family: "Ubuntu, sans-serif";
+	font-size: 2.5rem;
+	font-weight: bold;
+}
+
+.nav-item {
+	padding: 0 18px;
+}
+
+.nav-link {
+	font-weight: 400;
+	font-size: 1.2rem;
+}
+
+
+/********************************** Login Section on Homepage **********************************/
+
+#login {
+	padding: 100px;
+}
+
+.login-column {
+	padding: 3% 20%;
+}
+
+.login-title {
+	
+	font-weight: 900;
+	font-size: 2.75rem;
+}
+
+.login-text {
+
+	font-weight: 900;
+	font-size: 1.5rem;
+	line-height: 1.5;
+}
+
+.section-heading {
+	
+	font-weight: 900;
+	font-size: 3rem;
+	line-height: 1.5;
+}
+
+.login-btn {
+	margin-bottom: 3%;
+}
+
+/********************************** Icons **********************************/
+
+.icon {
+	color: #66BFBF;
+	margin-bottom: 1rem;
+}
+
+.icon:hover {
+	color: #CF9FFF;
+}
+
+
+/********************************** App Download Section **********************************/
+
+.download-button {
+	margin: 5% 3% 5% 0;
+}
+
+/********************************** Contact Section **********************************/
+
+.social-icon {
+	margin: 20px 10px;
+}

@@ -1,0 +1,165 @@
+<!doctype html>
+<html lang="en">
+
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Font Awesome Icons -->
+    <script src="https://kit.fontawesome.com/aa03b46e77.js" crossorigin="anonymous"></script>
+
+    <title>NatWest: Budgeting Tool</title>
+  </head>
+
+  <body>
+    
+    <!-- SECTION: TITLE -->
+    <section class="coloured-section" id="title">
+
+        <div class="container-fluid">
+
+          <!-- Navbar -->
+          <nav class="navbar navbar-expand-lg navbar-dark">
+            
+            <!-- Top-left icon - company name, which is NatWest -->
+            <a class="navbar-brand" href="/">NatWest</a>
+    
+            <!-- Hamburger drop-down button when screen gets to small -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+            
+            <!-- Navbar Items -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                
+                <ul class="navbar-nav ms-auto">
+									
+										<!-- Makes GET Request to the "/" route -->
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+										
+										<!-- Jumps to mobile download section -->
+										<li class="nav-item">
+											<a class="nav-link" href="#app-download">Download</a>
+										</li>
+										
+										<!-- Jumps to contact section -->
+                    <li class="nav-item">
+                      <a class="nav-link" href="#footer">Contact</a>
+                    </li>
+        
+                </ul>
+    
+            </div>
+    
+          </nav>
+    
+          <!-- Title -->
+          <div class="row">
+
+            <div class="col-lg">
+              <h1 class="big-heading">Manage Your Budget</h1>
+
+              <a type="button" class="btn btn-lg btn-success start-btn" href="#login">Get Started</a>
+              
+            </div>
+
+          </div>
+
+        </div>
+    
+      </section>
+    
+    
+      <!-- SECTION: LOGIN -->
+    
+      <section class="white-section" id="login">
+        
+        <!-- Email Sign up Row -->
+        <div class="row">
+
+            <!-- Email Sign Up Column -->
+            <div class="col login-column">
+
+                <div class="card">
+
+                    <div class="card-header">
+                        <h3 class="login-title">Login</h3>
+                    </div>
+
+                    <div class="card-body">
+                        <h2 class="login-text">100% Free</h2>
+												<p>Straightforward Design</p>
+                        <p>Track expenditure using charts</p>
+												<p>Ability to Modify and Save Changes</p>
+												<a type="button" class="btn btn-lg btn-primary w-75 login-btn" href="/signin">Sign-In</a>
+												<a type="button" class="btn btn-lg btn-secondary w-75 login-btn" href="/signup">Sign-Up</a>
+                    </div>
+
+                </div>
+
+            </div>
+        
+        </div>
+    
+      </section>
+    
+
+      <!-- SECTION: MOBILE APP DOWNLOAD -->
+    
+      <section class="coloured-section" id="app-download">
+
+        <div class="container-fluid">
+        
+            <!-- App Download -->
+            <h3 class="big-heading">Download the Official NatWest Mobile App</h3>
+            <a class="btn btn-lg btn-dark download-button" href="https://apps.apple.com/gb/app/natwest-mobile-banking/id334855322" type="button"><i class="fab fa-apple"></i> Download</a>
+            <a class="btn btn-lg btn-outline-light download-button" type="button" href="https://play.google.com/store/apps/details?id=com.rbs.mobile.android.natwest&hl=en_GB&gl=US"><i class="fab fa-google-play"></i> Download</a>
+
+        </div>
+    
+      </section>
+    
+    
+      <!-- SECTION: CONTACT -->
+    
+      <footer class="white-section" id="footer">
+
+        <div class="container-fluid">
+
+            <!-- Footer Social Icons -->
+            <a href="https://en-gb.facebook.com/NatWest/"><i class="fab fa-facebook-f social-icon"></i></a>
+            <a href="https://twitter.com/NatWest_Help"><i class="fab fa-twitter social-icon"></i></a>
+            <a href="https://www.instagram.com/natwest/"><i class="fab fa-instagram social-icon"></i></a>
+            <a href="https://www.natwest.com/support-centre/contact-us.html"><i class="fas fa-envelope social-icon"></i></a>
+            <p>© Copyright 2022 NatWest</p>
+
+        </div>
+    
+      </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+    
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="index.js"></script>
+
+  </body>
+
+</html>

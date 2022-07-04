@@ -1,0 +1,44 @@
+<!doctype html>
+
+<html lang="en">
+
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign-Up</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+
+    <!-- Custom CSS -->
+    <link href="signup.css" rel="stylesheet">
+  </head>
+
+  <body class="text-center">
+    
+    <main class="form-signin">
+
+        <form action="/signup" method="post" onsubmit="alert('Posting Data to Server...')">
+
+            <h1 class="h3 mb-3 fw-normal">Sign-Up</h1>
+            <input type="text" name="email" class="form-control top" placeholder="Email" id="emailId" required autofocus><span id="emailValidId"></span>
+            <input type="password" name="password" class="form-control middle" placeholder="Password" id="passwordId" required>
+            <input type="password" name="confirmPassword" id="confirmPasswordId" class="form-control bottom" placeholder="Confirm Password" required><span id="passwordMatchId"></span>
+            <button class="w-100 btn btn-lg btn-primary" id="submitBtnId" type="submit">Sign Up</button>
+            <p>© Copyright 2022 NatWest</p>
+
+        </form>
+        
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
+
+    <!-- jQuery JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Custom JS -->
+    <script src="signup.js"></script>
+
+  </body>
+
+</html>
