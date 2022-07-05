@@ -8,7 +8,7 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
 
-app.use(express.static("public"));
+app.use(express.static("client"));
 
 app.set("view engine", "ejs");
 
@@ -106,20 +106,26 @@ app.post("/signin", (req, res) => {
 
       bcrypt.compare(userPassword, returnedUser.password, (err, isCorrect) => {
 
+        if (err) {
+          authenticated = false;
+          res.redirect("/signin");
+        }
+
         if (isCorrect === true) {
 
           authenticated = true;
           currentUserEmail = returnedUser.email;
           res.redirect("/mainmenu");
 
+        } else {
+
+          res.redirect("/signin");
+
         }
 
       })
 
     }
-
-    authenticated = false;
-    res.redirect("/signin");
 
   })
 
