@@ -10,6 +10,7 @@
   "author": "JSS, LC, VS, KA",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "express": "^4.18.1",
     "mongoose": "^6.4.2"
   }
