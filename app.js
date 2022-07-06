@@ -18,6 +18,7 @@ app.use(express.urlencoded({
 
 let authenticated = false;
 let currentUserEmail = null;
+let selectedTransactionData = [];
 
 /*********** DATABASE CONNECTION ************/
 
@@ -33,10 +34,14 @@ const userSchema = new mongoose.Schema({
   email: String,
   password: String,
 
-  transactions: {
-    type: Array,
-    default: []
-  }
+  transactions: [{
+    item: String,
+    cost: String,
+    retailer: String,
+    day: String,
+    month: String,
+    year: String
+  }]
 
 });
 
@@ -70,7 +75,7 @@ app.get("/mainmenu", (_, res) => {
 
   } else {
 
-    res.redirect("signin")
+    res.redirect("/signin");
 
   }
 
@@ -87,6 +92,12 @@ app.get("/logExpenditure", (_, res) => {
 app.get("/logout", (_, res) => {
   authenticated = false;
   res.redirect("/");
+})
+
+
+// TODO
+app.get("/showChart", (_, res) => {
+  res.send(selectedTransactionData);
 })
 
 /*********** API POST ENDPOINTS ************/
@@ -149,6 +160,8 @@ app.post("/signup", (req, res) => {
       if (err) {
 
         console.log(err);
+        authenticated = false;
+        res.redirect("/signup");
 
         // No error but email but does not exist --> this must be a new user
       } else {
@@ -158,7 +171,8 @@ app.post("/signup", (req, res) => {
           // transactions: [] is added by default as defined in the schema above
           const newUser = new User({
             email: userEmail,
-            password: hashedPassword
+            password: hashedPassword,
+            transactions: []
           });
 
           newUser.save()
@@ -167,7 +181,10 @@ app.post("/signup", (req, res) => {
                 currentUserEmail = userEmail;
                 res.redirect("/mainmenu");
               })
-              .catch(err => console.log(err));
+              .catch(err => {
+                console.log(err);
+                res.redirect("/signup");
+              });
 
         })
 
@@ -181,6 +198,59 @@ app.post("/signup", (req, res) => {
 
 app.post("/viewExpenditure", (req, res) => {
 
+  let transactionLog = [];
+
+  const month = req.body.month;
+  const year = req.body.year;
+  const budget = req.body.budget;
+
+  if (currentUserEmail === null) {
+
+    authenticated = false;
+    res.redirect("/signin");
+
+  } else {
+
+    User.findOne({email: currentUserEmail}, (err, returnedUser) => {
+
+      if (returnedUser) {
+
+        for (let i = 0; i < returnedUser.transactions.length; i++) {
+
+          if ((returnedUser.transactions[i].year === year) && (returnedUser.transactions[i].month) === month) {
+            transactionLog.push(returnedUser.transactions[i]);
+          }
+
+        }
+
+        selectedTransactionData = transactionLog;
+
+        let totalExpenditure = 0.0;
+
+        for (let i = 0; i < selectedTransactionData.length; i++) {
+          totalExpenditure += parseFloat(selectedTransactionData[i].cost);
+        }
+
+        let percentageOfBudgetSpent = (totalExpenditure/parseFloat(budget)) * 100;
+
+        res.render("expenditure", {
+          entries: transactionLog,
+          percBudgetSpent: percentageOfBudgetSpent.toFixed(2),
+          selectedMonth: month,
+          selectedYear: year
+        });
+
+      } else {
+
+        console.log(err);
+        res.redirect("/configureExpenditureView");
+
+      }
+
+    })
+
+  }
+
 })
 
 app.post("/logExpenditure", (req, res) => {
@@ -192,6 +262,8 @@ app.post("/logExpenditure", (req, res) => {
   const loggedMonth = req.body.month;
   const loggedYear = req.body.year;
 
+  console.log(loggedItem);
+
   if (currentUserEmail === null) {
 
     authenticated = false;
@@ -199,26 +271,28 @@ app.post("/logExpenditure", (req, res) => {
 
   } else {
 
-    User.updateOne({email: currentUserEmail}, {
+    const newTransaction = {
+      item: loggedItem,
+      cost: loggedCost,
+      retailer: loggedRetailer,
+      day: loggedDay,
+      month: loggedMonth,
+      year: loggedYear
+    };
 
-      $push: {
+    User.findOneAndUpdate({email: currentUserEmail}, { $push: { transactions: newTransaction }}, (err, _) => {
 
-        transactions: {
+      if (err) {
 
-          item: loggedItem,
-          cost: loggedCost,
-          retailer: loggedRetailer,
-          day: loggedDay,
-          month: loggedMonth,
-          year: loggedYear
+        res.redirect("/logExpenditure");
 
-        }
+      } else {
+
+        res.redirect("/mainmenu");
 
       }
 
     })
-
-    res.redirect("/mainmenu");
 
   }
 
