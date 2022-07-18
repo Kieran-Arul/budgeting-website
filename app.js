@@ -38,9 +38,8 @@ const userSchema = new mongoose.Schema({
     item: String,
     cost: String,
     retailer: String,
-    day: String,
-    month: String,
-    year: String
+    date: Date,
+    category: String
   }]
 
 });
@@ -201,8 +200,23 @@ app.post("/viewExpenditure", (req, res) => {
   let transactionLog = [];
 
   const month = req.body.month;
-  const year = req.body.year;
+  const year = parseInt(req.body.year);
   const budget = req.body.budget;
+
+  const monthNameToIndex = {
+    "January": 0,
+    "February": 1,
+    "March": 2,
+    "April": 3,
+    "May": 4,
+    "June": 5,
+    "July": 6,
+    "August": 7,
+    "September": 8,
+    "October": 9,
+    "November": 10,
+    "December": 11,
+  }
 
   if (currentUserEmail === null) {
 
@@ -217,11 +231,18 @@ app.post("/viewExpenditure", (req, res) => {
 
         for (let i = 0; i < returnedUser.transactions.length; i++) {
 
-          if ((returnedUser.transactions[i].year === year) && (returnedUser.transactions[i].month) === month) {
+          if ((returnedUser.transactions[i].date.getFullYear() === year) && (returnedUser.transactions[i].date.getMonth()) === monthNameToIndex[month]) {
             transactionLog.push(returnedUser.transactions[i]);
           }
 
         }
+
+        // Ensures all transactions are sorted by date
+        // Logic of the sort function --> If left operand is greater than right operand, swap.
+        // If equal or lesser than, do nothing.
+        transactionLog.sort((a, b) => {
+          return new Date(a.date) - new Date(b.date)
+        })
 
         selectedTransactionData = transactionLog;
 
@@ -258,11 +279,11 @@ app.post("/logExpenditure", (req, res) => {
   const loggedItem = req.body.item;
   const loggedCost = req.body.cost;
   const loggedRetailer = req.body.retailer;
-  const loggedDay = req.body.day;
-  const loggedMonth = req.body.month;
-  const loggedYear = req.body.year;
+  const loggedDate = req.body.theDate;
+  const loggedCategory = req.body.category;
 
-  console.log(loggedItem);
+  const unformattedDateString = loggedDate.split(/\D/);
+  const formattedDateObj = new Date(unformattedDateString[0], --unformattedDateString[1], unformattedDateString[2]);
 
   if (currentUserEmail === null) {
 
@@ -275,9 +296,8 @@ app.post("/logExpenditure", (req, res) => {
       item: loggedItem,
       cost: loggedCost,
       retailer: loggedRetailer,
-      day: loggedDay,
-      month: loggedMonth,
-      year: loggedYear
+      date: formattedDateObj,
+      category: loggedCategory
     };
 
     User.findOneAndUpdate({email: currentUserEmail}, { $push: { transactions: newTransaction }}, (err, _) => {

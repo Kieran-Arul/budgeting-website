@@ -1,13 +1,15 @@
-$("#yearId").on("keyup", () => {
+$("#costId").on("keyup", () => {
 
-    if ($.isNumeric($("#yearId").val())) {
+    const inputCost = parseFloat($("#costId").val())
+
+    if (!isNaN(inputCost)) {
 
        	$("#submitBtnId").prop("disabled", false);
-        $("#yearValidId").html("");
+        $("#costValidId").html("");
 
     } else {
 
-        $("#yearValidId").html("Invalid Year").css("color", "red");
+        $("#costValidId").html("Invalid Cost").css("color", "red");
         $("#submitBtnId").prop("disabled", true);
 
     }

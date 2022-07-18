@@ -23,20 +23,20 @@
 			<table id="transactions">
 
 				<tr>
-					<th>Day</th>
-					<th>Category</th>
+					<th>Date</th>
 					<th>Item</th>
 					<th>Cost</th>
+					<th>Category</th>
 					<th>Retailer</th>
 				</tr>
 
 				<% entries.forEach(entry => { %>
 
 				<tr>
-					<td><%=entry.day%></td>
-					<td><%=entry.category%></td>
+					<td><%=entry.date.getDate()%> <%=selectedMonth%> <%=selectedYear%></td>
 					<td><%=entry.item%></td>
-					<td><%=entry.cost%></td>
+					<td>£<%=entry.cost%></td>
+					<td><%=entry.category%></td>
 					<td><%=entry.retailer%></td>
 				</tr>
 

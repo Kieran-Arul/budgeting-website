@@ -27,8 +27,8 @@
             </div>
 
             <div class="form-group">
-              <input type="text" name="cost" class="form-control" placeholder="Cost">
-            </div>
+              <input type="text" name="cost" class="form-control" id="costId" placeholder="Cost">
+            </div><span id="costValidId"></span>
 
             <div class="form-group">
               <input type="text" name="retailer" class="form-control" placeholder="Retailer">
@@ -41,24 +41,20 @@
             <div class="form-group">
               <select class="form-control" name="category">
                 <option>Choose Category...</option>
-                <option>Groceries</option>
-                <option>Rent</option>
-                <option>Travel</option>
-                <option>Entertainment</option>
-                <option>Bills</option>
-                <option>Shopping</option>
-                <option>Eating Out</option>
-                <option>Cash</option>
-                <option>Coffee</option>
-                <option>Payments</option>
-                <option>Direct Debits</option>
-                <option>Other</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Rent">Rent</option>
+                <option value="Travel">Travel</option>
+                <option value="Entertainment">Entertainment</option>
+                <option value="Bills">Bills</option>
+                <option value="Shopping">Shopping</option>
+                <option value="Eating Out">Eating Out</option>
+                <option value="Cash">Cash</option>
+                <option value="Coffee">Coffee</option>
+                <option value="Payment">Payments</option>
+                <option value="Direct Debits">Direct Debits</option>
+                <option value="Other">Other</option>
               </select>
             </div>
-
-<!--            <div class="form-group">-->
-<!--              <input type="text" name="category" class="form-control" id="yearId" placeholder="Year">-->
-<!--            </div><span id="yearValidId"></span>-->
 
             <button class="w-100 btn btn-lg btn-primary" id="submitBtnId" type="submit">Submit</button>
             <a type="button" href="/mainmenu" class="w-100 btn btn-lg btn-danger">Back</a>
