@@ -109,7 +109,6 @@ app.post("/signin", (req, res) => {
     if (err) {
 
       console.log(err);
-      res.redirect("/signin");
 
     } else if (returnedUser) {
 
@@ -134,6 +133,10 @@ app.post("/signin", (req, res) => {
 
       })
 
+    }
+
+    else {
+      res.redirect("/signin");
     }
 
   })
