@@ -81,11 +81,31 @@ app.get("/mainmenu", (_, res) => {
 })
 
 app.get("/configureExpenditureView", (_, res) => {
-  res.sendFile(__dirname + "/client/configure-expenditure-view/configure-expenditure-view.html")
+
+  if (authenticated) {
+
+    res.sendFile(__dirname + "/client/configure-expenditure-view/configure-expenditure-view.html");
+
+  } else {
+
+    res.redirect("/signin");
+
+  }
+
 })
 
 app.get("/logExpenditure", (_, res) => {
-  res.sendFile(__dirname + "/client/log-expenditure/log-expenditure.html")
+
+  if (authenticated) {
+
+    res.sendFile(__dirname + "/client/log-expenditure/log-expenditure.html");
+
+  } else {
+
+    res.redirect("/signin");
+
+  }
+
 })
 
 app.get("/logout", (_, res) => {
@@ -94,7 +114,17 @@ app.get("/logout", (_, res) => {
 })
 
 app.get("/getChartData", (_, res) => {
-  res.send(selectedTransactionData);
+
+  if (authenticated) {
+
+    res.send(selectedTransactionData);
+
+  } else {
+
+    res.redirect("/signin");
+
+  }
+
 })
 
 /*********** API POST ENDPOINTS ************/
@@ -115,7 +145,6 @@ app.post("/signin", (req, res) => {
       bcrypt.compare(userPassword, returnedUser.password, (err, isCorrect) => {
 
         if (err) {
-          authenticated = false;
           res.redirect("/signin");
         }
 
@@ -162,7 +191,6 @@ app.post("/signup", (req, res) => {
       if (err) {
 
         console.log(err);
-        authenticated = false;
         res.redirect("/signup");
 
         // No error and email does not exist --> must be a new user
