@@ -154,6 +154,7 @@ app.post("/signup", (req, res) => {
     if (returnedUser) {
 
       console.log(userEmail + " already exists");
+      res.redirect("/signup");
 
       // Email does not exist but error occurred somewhere
     } else {
@@ -164,7 +165,7 @@ app.post("/signup", (req, res) => {
         authenticated = false;
         res.redirect("/signup");
 
-        // No error but email but does not exist --> this must be a new user
+        // No error and email does not exist --> must be a new user
       } else {
 
         bcrypt.hash(userPassword, saltRounds, (err, hashedPassword) => {
