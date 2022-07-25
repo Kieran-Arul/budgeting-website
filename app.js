@@ -93,9 +93,7 @@ app.get("/logout", (_, res) => {
   res.redirect("/");
 })
 
-
-// TODO
-app.get("/showChart", (_, res) => {
+app.get("/getChartData", (_, res) => {
   res.send(selectedTransactionData);
 })
 
@@ -111,6 +109,7 @@ app.post("/signin", (req, res) => {
     if (err) {
 
       console.log(err);
+      res.redirect("/signin");
 
     } else if (returnedUser) {
 
