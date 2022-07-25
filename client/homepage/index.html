@@ -7,10 +7,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;900&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
-
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
@@ -31,10 +27,15 @@
         <div class="container-fluid">
 
           <!-- Navbar -->
-          <nav class="navbar navbar-expand-lg navbar-dark">
+          <nav class="navbar navbar-expand-lg navbar-light">
             
             <!-- Top-left icon - company name, which is NatWest -->
-            <a class="navbar-brand" href="/">NatWest</a>
+            <div class="container-fluid">
+              <a class="navbar-brand" href="#">
+                <img src ="images/Natwest.jpg" width = "100" height="70" >
+                NatWest
+              </a>
+            
     
             <!-- Hamburger drop-down button when screen gets to small -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -69,18 +70,17 @@
                 </ul>
     
             </div>
+            </div>
     
           </nav>
     
           <!-- Title -->
-          <div class="row">
 
             <div class="col-lg">
               <h1 class="big-heading">Manage Your Budget</h1>
 
               <a type="button" class="btn btn-lg btn-success start-btn" href="#login">Get Started</a>
               
-            </div>
 
           </div>
 
