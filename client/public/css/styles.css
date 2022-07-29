@@ -2,6 +2,10 @@ body {
   background-color: #E8ECEF;
 }
 
+.page-header {
+  margin-top: 4%;
+}
+
 #transactions {
   font-family: Arial, Helvetica, sans-serif;
   border-collapse: collapse;
@@ -31,7 +35,12 @@ body {
 }
 
 .chartBox {
-  width: 40%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.back-btn {
+  margin-bottom: 4%;
 }
 
 

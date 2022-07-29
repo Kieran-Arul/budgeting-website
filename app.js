@@ -287,7 +287,7 @@ app.post("/viewExpenditure", (req, res) => {
 
         res.render("expenditure", {
           entries: transactionLog,
-          percBudgetSpent: percentageOfBudgetSpent.toFixed(2),
+          percentageBudgetSpent: percentageOfBudgetSpent.toFixed(2),
           selectedMonth: month,
           selectedYear: year
         });

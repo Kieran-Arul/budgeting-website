@@ -3,14 +3,17 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Expenditure</title>
+  <title>MyBudgetApp | Expenditure Report</title>
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+	<!-- BOOTSTRAP CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- CHART JS -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
 
+	<!-- CUSTOM CSS -->
   <link rel="stylesheet" href="public/css/styles.css">
 </head>
 
@@ -20,11 +23,7 @@
 
 		<div class="container">
 
-			<div class="chartBox">
-				<canvas id="expPieChart"></canvas>
-			</div>
-
-			<h1 class="display-3">Expenditure for <%=selectedMonth%> <%=selectedYear%></h1>
+			<h1 class="display-3 page-header">Expenditure for <%=selectedMonth%> <%=selectedYear%></h1>
 
 			<table id="transactions">
 
@@ -50,11 +49,17 @@
 
 			</table>
 
-			<div class="budget-spent"><p>Percentage of budget used: <%=percBudgetSpent%>%</p></div>
+			<div class="budget-spent"><p>Percentage of budget used: <%=percentageBudgetSpent%>%</p></div>
 
 			<hr>
-			<a class="btn btn-light btn-lg" href="/showChart" role="button">Show Visual Chart</a>
-			<a class="btn btn-dark btn-lg" href="/mainmenu" role="button">Back</a>
+
+			<div class="row chartBox">
+				<div class="col-lg-12">
+					<canvas id="expPieChart" width="12" height="5"></canvas>
+				</div>
+			</div>
+
+			<a class="btn btn-dark btn-lg back-btn" href="/mainmenu" role="button">Back</a>
 
 		</div>
 
