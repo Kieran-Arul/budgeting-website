@@ -1,9 +1,8 @@
 /*********** GENERAL SET-UP ************/
 
+const fs = require("fs").promises;
 const express = require("express");
 const app = express();
-
-const mongoose = require("mongoose");
 
 const bcrypt = require("bcryptjs");
 const saltRounds = 10;
@@ -20,37 +19,9 @@ let authenticated = false;
 let currentUserEmail = null;
 let selectedTransactionData = [];
 
-/*********** DATABASE CONNECTION ************/
-
-mongoose.connect("mongodb://localhost:27017/budgetingWebsiteUsersDB")
-    .then(() => console.log("Connected to Budgeting Website DB"))
-    .catch(() => console.log("Connection to Budgeting Website DB failed"));
-
-/*********** DATABASE SCHEMA SET-UP ************/
-
-// Defines a schema that will be used for a collection (table) in the database
-const userSchema = new mongoose.Schema({
-
-  email: String,
-  password: String,
-
-  transactions: [{
-    item: String,
-    cost: String,
-    retailer: String,
-    date: Date,
-    category: String
-  }]
-
-});
-
-// Creates a MongoDB collection (equivalent to table) called "Users" (Mongo automatically changes User to 
-// Users). Documents in this particular collection will follow the schema of "userSchema" defined above
-const User = new mongoose.model("User", userSchema);
-
 /*********** API GET ENDPOINTS ************/
 
-app.get("/", (_, res) => {
+app.get("/", async (_, res) => {
   res.sendFile(__dirname + "/client/homepage/index.html")
 })
 
@@ -127,102 +98,113 @@ app.get("/getChartData", (_, res) => {
 
 })
 
+/*********** HELPER FUNCTIONS ************/
+
+async function readAsJson(filepath) {
+
+  try {
+
+    const rawJsonString = await fs.readFile(filepath, "utf8");
+
+    return JSON.parse(rawJsonString);
+
+  }
+
+  catch (err) {
+    console.log(err);
+  }
+
+}
+
+async function writeToJson(filepath, data) {
+
+  let newData = JSON.stringify(data, null, 2);
+
+  try {
+    await fs.writeFile(filepath, newData, "utf8");
+  }
+
+  catch (err) {
+    console.log(err);
+  }
+
+
+}
+
 /*********** API POST ENDPOINTS ************/
 
-app.post("/signin", (req, res) => {
+app.post("/signin", async (req, res) => {
 
   const userEmail = req.body.email;
   const userPassword = req.body.password;
 
-  User.findOne({email: userEmail}, (err, returnedUser) => {
+  let users = await readAsJson("users.json");
 
-    if (err) {
+  if (!(users[userEmail] === undefined)) {
 
-      console.log(err);
-
-    } else if (returnedUser) {
-
-      bcrypt.compare(userPassword, returnedUser.password, (err, isCorrect) => {
-
-        if (err) {
-          res.redirect("/signin");
-        }
-
-        if (isCorrect === true) {
-
-          authenticated = true;
-          currentUserEmail = returnedUser.email;
-          res.redirect("/mainmenu");
-
-        } else {
-
-          res.redirect("/signin");
-
-        }
-
-      })
-
-    }
-
-    else {
-      res.redirect("/signin");
-    }
-
-  })
-
-})
-
-app.post("/signup", (req, res) => {
-
-  const userEmail = req.body.email;
-  const userPassword = req.body.password;
-
-  User.findOne({email: userEmail}, (err, returnedUser) => {
-
-    // Email already exists
-    if (returnedUser) {
-
-      console.log(userEmail + " already exists");
-      res.redirect("/signup");
-
-      // Email does not exist but error occurred somewhere
-    } else {
+    bcrypt.compare(userPassword, users[userEmail].password, (err, isCorrect) => {
 
       if (err) {
+        res.redirect("/signin");
+      }
 
-        console.log(err);
-        res.redirect("/signup");
+      if (isCorrect === true) {
 
-        // No error and email does not exist --> must be a new user
+        authenticated = true;
+        currentUserEmail = userEmail;
+        res.redirect("/mainmenu");
+
       } else {
 
-        bcrypt.hash(userPassword, saltRounds, (err, hashedPassword) => {
-
-          // transactions: [] is added by default as defined in the schema above
-          const newUser = new User({
-            email: userEmail,
-            password: hashedPassword,
-            transactions: []
-          });
-
-          newUser.save()
-              .then(() => {
-                authenticated = true;
-                currentUserEmail = userEmail;
-                res.redirect("/mainmenu");
-              })
-              .catch(err => {
-                console.log(err);
-                res.redirect("/signup");
-              });
-
-        })
+        res.redirect("/signin");
 
       }
 
+    })
+
+  } else {
+    res.redirect("/signin");
+  }
+
+})
+
+app.post("/signup", async (req, res) => {
+
+  const userEmail = req.body.email;
+  const userPassword = req.body.password;
+
+  let users = await readAsJson("users.json");
+
+  // User does not exist --> signing up is valid
+  if (users[userEmail] === undefined) {
+
+    try {
+
+      let hashedPassword = await bcrypt.hash(userPassword, saltRounds)
+
+      users[userEmail] = {
+        "password": hashedPassword,
+        transactions: []
+      }
+
+      await writeToJson("users.json", users);
+
+      authenticated = true;
+      currentUserEmail = userEmail;
+      res.redirect("/mainmenu")
+
+    } catch (err) {
+
+      res.redirect("/signup");
+
     }
 
-  });
+  } else {
+
+    console.log(userEmail + " already exists");
+    res.redirect("/signup");
+
+  }
 
 })
 
