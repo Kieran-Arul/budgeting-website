@@ -21,7 +21,7 @@ let selectedTransactionData = [];
 
 /*********** API GET ENDPOINTS ************/
 
-app.get("/", async (_, res) => {
+app.get("/", (_, res) => {
   res.sendFile(__dirname + "/client/homepage/index.html")
 })
 
@@ -183,7 +183,7 @@ app.post("/signup", async (req, res) => {
       let hashedPassword = await bcrypt.hash(userPassword, saltRounds)
 
       users[userEmail] = {
-        "password": hashedPassword,
+        password: hashedPassword,
         transactions: []
       }
 
@@ -208,7 +208,7 @@ app.post("/signup", async (req, res) => {
 
 })
 
-app.post("/viewExpenditure", (req, res) => {
+app.post("/viewExpenditure", async (req, res) => {
 
   let transactionLog = [];
 
@@ -238,56 +238,52 @@ app.post("/viewExpenditure", (req, res) => {
 
   } else {
 
-    User.findOne({email: currentUserEmail}, (err, returnedUser) => {
+    let users = await readAsJson("users.json");
 
-      if (returnedUser) {
+    let userTransactions = users[currentUserEmail].transactions;
 
-        for (let i = 0; i < returnedUser.transactions.length; i++) {
+    for (let i = 0; i < userTransactions.length; i++) {
 
-          if ((returnedUser.transactions[i].date.getFullYear() === year) && (returnedUser.transactions[i].date.getMonth()) === monthNameToIndex[month]) {
-            transactionLog.push(returnedUser.transactions[i]);
-          }
+      // Convert strings saved in the JSON file back into Date objects
+      // Reason: saving the Date object into the JSON file and does not preserve its Date object property
+      // It is simply saved as a string which then needs to be parsed and converted to a Date object again
+      userTransactions[i].date = new Date(Date.parse(userTransactions[i].date));
 
-        }
-
-        // Ensures all transactions are sorted by date
-        // Logic of the sort function --> If left operand is greater than right operand, swap.
-        // If equal or lesser than, do nothing.
-        transactionLog.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date)
-        })
-
-        selectedTransactionData = transactionLog;
-
-        let totalExpenditure = 0.0;
-
-        for (let i = 0; i < selectedTransactionData.length; i++) {
-          totalExpenditure += parseFloat(selectedTransactionData[i].cost);
-        }
-
-        let percentageOfBudgetSpent = (totalExpenditure/parseFloat(budget)) * 100;
-
-        res.render("expenditure", {
-          entries: transactionLog,
-          percentageBudgetSpent: percentageOfBudgetSpent.toFixed(2),
-          selectedMonth: month,
-          selectedYear: year
-        });
-
-      } else {
-
-        console.log(err);
-        res.redirect("/configureExpenditureView");
-
+      if ((userTransactions[i].date.getFullYear() === year) && (userTransactions[i].date.getMonth() === monthNameToIndex[month])) {
+        transactionLog.push(userTransactions[i]);
       }
 
+    }
+
+    // Ensures all transactions are sorted by date
+    // Logic of the sort function --> If left operand is greater than right operand, swap.
+    // If equal or lesser than, do nothing.
+    transactionLog.sort((a, b) => {
+      return new Date(a.date) - new Date(b.date)
     })
+
+    selectedTransactionData = transactionLog;
+
+    let totalExpenditure = 0.0;
+
+    for (let i = 0; i < selectedTransactionData.length; i++) {
+      totalExpenditure += parseFloat(selectedTransactionData[i].cost);
+    }
+
+    let percentageOfBudgetSpent = (totalExpenditure/parseFloat(budget)) * 100;
+
+    res.render("expenditure", {
+      entries: transactionLog,
+      percentageBudgetSpent: percentageOfBudgetSpent.toFixed(2),
+      selectedMonth: month,
+      selectedYear: year
+    });
 
   }
 
 })
 
-app.post("/logExpenditure", (req, res) => {
+app.post("/logExpenditure", async (req, res) => {
 
   const loggedItem = req.body.item;
   const loggedCost = req.body.cost;
@@ -313,19 +309,22 @@ app.post("/logExpenditure", (req, res) => {
       category: loggedCategory
     };
 
-    User.findOneAndUpdate({email: currentUserEmail}, { $push: { transactions: newTransaction }}, (err, _) => {
+    let users = await readAsJson("users.json");
 
-      if (err) {
+    users[currentUserEmail].transactions.push(newTransaction)
 
-        res.redirect("/logExpenditure");
+    try {
 
-      } else {
+      await writeToJson("users.json", users);
 
-        res.redirect("/mainmenu");
+      res.redirect("/mainmenu");
 
-      }
+    } catch (err) {
 
-    })
+      console.log(err);
+      res.redirect("/logExpenditure");
+
+    }
 
   }
 

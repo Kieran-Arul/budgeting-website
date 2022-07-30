@@ -1,6 +1,35 @@
 {
   "john@gmail.com": {
-    "password": "$2a$10$VwPECUxh/Z3.1oDnl1KO.OFyCz4mqJKPLPC8Gd8bQkeZekcbvjBZO",
-    "transactions": []
+    "password": "$2a$10$swrix9dDupfmUdbZCk32wOrSrS0dkM3GEuQga5BJ3MJKjU24ThluW",
+    "transactions": [
+      {
+        "item": "Ham",
+        "cost": "2.50",
+        "retailer": "Lidl",
+        "date": "2022-07-12T23:00:00.000Z",
+        "category": "Groceries"
+      },
+      {
+        "item": "Bacon",
+        "cost": "2.65",
+        "retailer": "Tesco",
+        "date": "2022-07-20T23:00:00.000Z",
+        "category": "Groceries"
+      },
+      {
+        "item": "Ramen",
+        "cost": "12.50",
+        "retailer": "Gulp",
+        "date": "2022-07-04T23:00:00.000Z",
+        "category": "Eating Out"
+      },
+      {
+        "item": "Doctor Strange",
+        "cost": "11.50",
+        "retailer": "Odeon",
+        "date": "2022-07-03T23:00:00.000Z",
+        "category": "Entertainment"
+      }
+    ]
   }
 }
