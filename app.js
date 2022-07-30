@@ -349,6 +349,6 @@ app.post("/logExpenditure", (req, res) => {
 
 })
 
-/*********** EXPORTS ************/
+/********** EXPORTS ***********/
 
 module.exports = app;
